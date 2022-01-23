@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-Hans">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    基于JavaWeb的图书商城管理系统 |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-jsp"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  基于JavaWeb的图书商城管理系统
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/01/17/jsp/" class="article-date">
+  <time datetime="2022-01-17T06:25:25.807Z" itemprop="datePublished">2022-01-17</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">22 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>大三上学期JavaWeb课程的期末课程设计。使用了jsp+tomcat+mysql。</p>
+<h4 id="数据库连接设计"><a href="#数据库连接设计" class="headerlink" title="数据库连接设计"></a>数据库连接设计</h4><h5 id="JDBCUtil-java"><a href="#JDBCUtil-java" class="headerlink" title="JDBCUtil.java"></a>JDBCUtil.java</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> data;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JDBCUtil</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException,SQLException</span>&#123;</span><br><span class="line">		Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">		Connection connection = </span><br><span class="line">				DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://localhost:3306/book?serverTimezone=Asia/Shanghai&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;123456&quot;</span>);</span><br><span class="line">						<span class="keyword">return</span> connection;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span>   <span class="title">close</span><span class="params">(ResultSet res, Statement st, Connection cnn)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (res!= <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                res.close ();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace ();</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (st != <span class="keyword">null</span>)</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        st.close ();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                        e.printStackTrace ();</span><br><span class="line">                    &#125;<span class="keyword">if</span>(cnn!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        cnn.close();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                        e.printStackTrace ();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Userdatabase-java"><a href="#Userdatabase-java" class="headerlink" title="Userdatabase.java"></a>Userdatabase.java</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Userdatabase</span> </span>&#123;</span><br><span class="line">	 <span class="function"><span class="keyword">public</span> User <span class="title">findUser</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">		 ResultSet rs=<span class="keyword">null</span>;</span><br><span class="line">		 Connection conn=<span class="keyword">null</span>;</span><br><span class="line">		 PreparedStatement pstmt=<span class="keyword">null</span>;</span><br><span class="line">		 JDBCUtil util = <span class="keyword">new</span> JDBCUtil();</span><br><span class="line">		 User user=<span class="keyword">new</span> User();</span><br><span class="line">		 <span class="keyword">try</span>&#123;</span><br><span class="line">			 conn = JDBCUtil.getConnection();</span><br><span class="line">			 pstmt = conn.prepareStatement(<span class="string">&quot;select * from user where username =?&quot;</span>);</span><br><span class="line">			 pstmt.setString(<span class="number">1</span>, username);</span><br><span class="line">			 rs=pstmt.executeQuery();</span><br><span class="line">			 <span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">				 user.setUsername(rs.getString(<span class="number">1</span>));</span><br><span class="line">				 user.setPassword(rs.getString(<span class="number">2</span>));</span><br><span class="line">				 user.setStatus(rs.getInt(<span class="number">3</span>));</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">			 e.printStackTrace();</span><br><span class="line">		 &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			 JDBCUtil.close(rs,pstmt,conn);</span><br><span class="line">		 &#125;<span class="keyword">return</span> user;</span><br><span class="line">	    &#125;</span><br><span class="line">	 <span class="comment">//管理员登录</span></span><br><span class="line">	 <span class="function"><span class="keyword">public</span> Admin <span class="title">findAdmin</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">		 ResultSet rs=<span class="keyword">null</span>;</span><br><span class="line">		 Connection conn=<span class="keyword">null</span>;</span><br><span class="line">		 PreparedStatement pstmt=<span class="keyword">null</span>;</span><br><span class="line">		 JDBCUtil util = <span class="keyword">new</span> JDBCUtil();</span><br><span class="line">		 Admin admin=<span class="keyword">new</span> Admin();</span><br><span class="line">		 <span class="keyword">try</span>&#123;</span><br><span class="line">			 conn = JDBCUtil.getConnection();</span><br><span class="line">			 pstmt = conn.prepareStatement(<span class="string">&quot;select * from adminlist where username =?&quot;</span>);</span><br><span class="line">			 pstmt.setString(<span class="number">1</span>, username);</span><br><span class="line">			 rs=pstmt.executeQuery();</span><br><span class="line">			 <span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">				 admin.setUsername(rs.getString(<span class="number">1</span>));</span><br><span class="line">				 admin.setPassword(rs.getString(<span class="number">2</span>));</span><br><span class="line">			 &#125;</span><br><span class="line">		 &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">			 e.printStackTrace();</span><br><span class="line">		 &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			 JDBCUtil.close(rs,pstmt,conn);</span><br><span class="line">		 &#125;<span class="keyword">return</span> admin;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="comment">//添加用户</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addUser</span><span class="params">(String username, String psw)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">	    	Connection conn=<span class="keyword">null</span>;</span><br><span class="line">	    	JDBCUtil util = <span class="keyword">new</span> JDBCUtil();</span><br><span class="line">	        PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">	        String sql = <span class="string">&quot;INSERT INTO user(username,password) VALUES(?,?)&quot;</span>;</span><br><span class="line">	        <span class="keyword">boolean</span> res = <span class="keyword">false</span>;</span><br><span class="line">	        <span class="keyword">try</span> &#123;</span><br><span class="line">	        	conn = JDBCUtil.getConnection();</span><br><span class="line">	            pstmt = conn.prepareStatement (sql);</span><br><span class="line">	            pstmt.setString (<span class="number">1</span>, username);</span><br><span class="line">	            pstmt.setString (<span class="number">2</span>, psw);</span><br><span class="line">	            res = (pstmt.executeUpdate () == <span class="number">1</span>);</span><br><span class="line">	        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	            <span class="keyword">if</span> (!e.getMessage ().contains (<span class="string">&quot;PRIMARY&quot;</span>)) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	            <span class="keyword">try</span> &#123;</span><br><span class="line">	                <span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) pstmt.close ();</span><br><span class="line">	                <span class="keyword">if</span> (conn != <span class="keyword">null</span>) conn.close ();</span><br><span class="line">	            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">	        <span class="keyword">return</span> res;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="comment">//添加图书</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addBook</span><span class="params">(String bookname, String author,<span class="keyword">float</span> price,String type,String detail)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">	    	Connection conn=<span class="keyword">null</span>;</span><br><span class="line">	    	JDBCUtil util = <span class="keyword">new</span> JDBCUtil();</span><br><span class="line">	        PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">	        String sql = <span class="string">&quot;INSERT INTO booklist(bookName,author,type,price,detail) VALUES(?,?,?,?,?)&quot;</span>;</span><br><span class="line">	        <span class="keyword">boolean</span> res = <span class="keyword">false</span>;</span><br><span class="line">	        <span class="keyword">try</span> &#123;</span><br><span class="line">	        	conn = JDBCUtil.getConnection();</span><br><span class="line">	            pstmt = conn.prepareStatement (sql);</span><br><span class="line">	            pstmt.setString (<span class="number">1</span>, bookname);</span><br><span class="line">	            pstmt.setString (<span class="number">2</span>, author);</span><br><span class="line">	            pstmt.setString (<span class="number">3</span>, type);</span><br><span class="line">	            pstmt.setFloat (<span class="number">4</span>, price);</span><br><span class="line">	            pstmt.setString(<span class="number">5</span>, detail);</span><br><span class="line">	            res = (pstmt.executeUpdate () == <span class="number">1</span>);</span><br><span class="line">	        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	            <span class="keyword">if</span> (!e.getMessage ().contains (<span class="string">&quot;PRIMARY&quot;</span>)) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	            <span class="keyword">try</span> &#123;</span><br><span class="line">	                <span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) pstmt.close ();</span><br><span class="line">	                <span class="keyword">if</span> (conn != <span class="keyword">null</span>) conn.close ();</span><br><span class="line">	            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">	        <span class="keyword">return</span> res;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="comment">//添加管理员</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAdmin</span><span class="params">(String username, String password)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">	    	Connection conn=<span class="keyword">null</span>;</span><br><span class="line">	    	JDBCUtil util = <span class="keyword">new</span> JDBCUtil();</span><br><span class="line">	        PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">	        String sql = <span class="string">&quot;INSERT INTO adminlist(username,password) VALUES(?,?)&quot;</span>;</span><br><span class="line">	        <span class="keyword">boolean</span> res = <span class="keyword">false</span>;</span><br><span class="line">	        <span class="keyword">try</span> &#123;</span><br><span class="line">	        	conn = JDBCUtil.getConnection();</span><br><span class="line">	            pstmt = conn.prepareStatement (sql);</span><br><span class="line">	            pstmt.setString (<span class="number">1</span>, username);</span><br><span class="line">	            pstmt.setString (<span class="number">2</span>, password);</span><br><span class="line">	            res = (pstmt.executeUpdate () == <span class="number">1</span>);</span><br><span class="line">	        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	            <span class="keyword">if</span> (!e.getMessage ().contains (<span class="string">&quot;PRIMARY&quot;</span>)) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	            <span class="keyword">try</span> &#123;</span><br><span class="line">	                <span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) pstmt.close ();</span><br><span class="line">	                <span class="keyword">if</span> (conn != <span class="keyword">null</span>) conn.close ();</span><br><span class="line">	            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">	        <span class="keyword">return</span> res;</span><br><span class="line">	    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="登录与注册设计"><a href="#登录与注册设计" class="headerlink" title="登录与注册设计"></a>登录与注册设计</h4><h5 id="登录页面设计"><a href="#登录页面设计" class="headerlink" title="登录页面设计"></a>登录页面设计</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;body style=<span class="string">&quot;background: url(image/bg.jpg)&quot;</span>&gt;</span><br><span class="line">&lt;p id=<span class="string">&quot;biaoti&quot;</span>&gt;欢迎登录&lt;/p&gt; </span><br><span class="line">  &lt;form action=<span class="string">&quot;LoginServlet&quot;</span> method=<span class="string">&quot;post&quot;</span>&gt;</span><br><span class="line">      &lt;div id=<span class="string">&quot;div1&quot;</span>&gt;</span><br><span class="line">        &lt;table&gt;</span><br><span class="line">          &lt;tr&gt;</span><br><span class="line">            &lt;td&gt;</span><br><span class="line">              用户名</span><br><span class="line">            &lt;/td&gt;</span><br><span class="line">            &lt;td&gt;</span><br><span class="line">              &lt;input id=<span class="string">&quot;username&quot;</span> name=<span class="string">&quot;username&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;shuru&quot;</span> type=<span class="string">&quot;text&quot;</span>/&gt;</span><br><span class="line">            &lt;/td&gt;</span><br><span class="line">          &lt;/tr&gt;</span><br><span class="line">          &lt;tr&gt;</span><br><span class="line">            &lt;td&gt;</span><br><span class="line">              密码</span><br><span class="line">            &lt;/td&gt;</span><br><span class="line">            &lt;td&gt;</span><br><span class="line">              &lt;input id=<span class="string">&quot;pwd&quot;</span> name=<span class="string">&quot;password&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;shuru&quot;</span> type=<span class="string">&quot;password&quot;</span>/&gt;</span><br><span class="line">            &lt;/td&gt;</span><br><span class="line">          &lt;/tr&gt;</span><br><span class="line">          &lt;tr&gt;</span><br><span class="line">            &lt;td colspan=<span class="string">&quot;2&quot;</span>&gt;</span><br><span class="line">              &lt;input <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;anniu&quot;</span> type=submit value=<span class="string">&quot;登录&quot;</span>&gt;&lt;/input&gt;</span><br><span class="line">              &lt;input <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;anniu&quot;</span> onclick=<span class="string">&quot;window.location=&#x27;register.jsp&#x27;&quot;</span> type=<span class="string">&quot;button&quot;</span> value=<span class="string">&quot;注册&quot;</span>&gt;&lt;/input&gt;</span><br><span class="line">            &lt;/td&gt;</span><br><span class="line">          &lt;/tr&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line">        &lt;input <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;anniu&quot;</span> type=<span class="string">&quot;button&quot;</span> onclick=<span class="string">&quot;window.location=&#x27;adminlogin.jsp&#x27;&quot;</span> value=<span class="string">&quot;管理员登录&quot;</span>&gt;&lt;/input&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="登录页面servlet设计"><a href="#登录页面servlet设计" class="headerlink" title="登录页面servlet设计"></a>登录页面servlet设计</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		HttpSession session = request.getSession(<span class="keyword">true</span>);</span><br><span class="line">		response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br><span class="line">		request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        PrintWriter out=response.getWriter ();</span><br><span class="line">        String url=<span class="string">&quot;jdbc:mysql://localhost:3306/book?user=root&amp;password=123456&quot;</span>;</span><br><span class="line">        url+=<span class="string">&quot;&amp;serverTimezone=Asia/Shanghai&quot;</span>;</span><br><span class="line">        <span class="comment">//接收表单信息</span></span><br><span class="line">        String username = request.getParameter(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">        String password = request.getParameter(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">        session.setAttribute(<span class="string">&quot;username&quot;</span>,username);</span><br><span class="line">      <span class="comment">//根据用户名查询用户</span></span><br><span class="line">    	User user = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            user = userdatabase.findUser(username);</span><br><span class="line">            System.out.println (user.getUsername ());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            System.out.println (<span class="string">&quot;findUser方法错误&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(user.getUsername ()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(((User) user).getPassword().equals(password))&#123;</span><br><span class="line">            	<span class="keyword">if</span>(user.getStatus()==<span class="number">0</span>)&#123;</span><br><span class="line">            	<span class="keyword">try</span>&#123;</span><br><span class="line">            		Connection conn=DriverManager.getConnection(url);</span><br><span class="line">                    Statement st=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">                    String sql=<span class="string">&quot;select * from user&quot;</span>;</span><br><span class="line">                    ResultSet rs=st.executeQuery(sql);</span><br><span class="line">                    List&lt;User&gt; users=<span class="keyword">new</span> ArrayList&lt;User&gt;();</span><br><span class="line">                    <span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">                    	User user1=<span class="keyword">new</span> User();</span><br><span class="line">                    	user1.username=rs.getString(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">                    	user1.password=rs.getString(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">                    	user1.status=rs.getInt(<span class="string">&quot;status&quot;</span>);</span><br><span class="line">                    	users.add(user1);</span><br><span class="line">                    &#125;</span><br><span class="line">                    request.setAttribute(<span class="string">&quot;users&quot;</span>, users);</span><br><span class="line">                    request.getRequestDispatcher(<span class="string">&quot;/browse.jsp&quot;</span>).forward(request, response);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">                	e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            		out.print (<span class="string">&quot;&lt;script language=&#x27;javaScript&#x27;&gt; alert(&#x27;该账号已被禁用，请联系管理员！&#x27;);&lt;/script&gt;&quot;</span>);</span><br><span class="line">                    response.setHeader (<span class="string">&quot;refresh&quot;</span>, <span class="string">&quot;0;url=../bookshop/login.jsp&quot;</span>);</span><br><span class="line">            	&#125;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                out.print (<span class="string">&quot;&lt;script language=&#x27;javaScript&#x27;&gt; alert(&#x27;password is error&#x27;);&lt;/script&gt;&quot;</span>);</span><br><span class="line">                response.setHeader (<span class="string">&quot;refresh&quot;</span>, <span class="string">&quot;0;url=../bookshop/login.jsp&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            out.print (<span class="string">&quot;&lt;script language=&#x27;javaScript&#x27;&gt; alert(&#x27;this user not exists &#x27;);&lt;/script&gt;&quot;</span>);</span><br><span class="line">            response.setHeader (<span class="string">&quot;refresh&quot;</span>, <span class="string">&quot;0;url=../bookshop/login.jsp&quot;</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="注册页面servlet设计"><a href="#注册页面servlet设计" class="headerlink" title="注册页面servlet设计"></a>注册页面servlet设计</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">		String username = request.getParameter(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">		String password = request.getParameter(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">		<span class="keyword">boolean</span> user = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            user = userdatabase.addUser(username,password);</span><br><span class="line">            response.sendRedirect(<span class="string">&quot;../bookshop/login.jsp&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            System.out.println (<span class="string">&quot;addUser方法错误&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="商城前端设计"><a href="#商城前端设计" class="headerlink" title="商城前端设计"></a>商城前端设计</h4><h5 id="模糊搜索设计"><a href="#模糊搜索设计" class="headerlink" title="模糊搜索设计"></a>模糊搜索设计</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="comment">//response.getWriter().append(&quot;Served at: &quot;).append(request.getContextPath());</span></span><br><span class="line">		response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br><span class="line">		request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">		<span class="comment">//response.getWriter()</span></span><br><span class="line">		String bookname=request.getParameter(<span class="string">&quot;bookname&quot;</span>);</span><br><span class="line">		bookname=bookname==<span class="keyword">null</span>?<span class="string">&quot;&quot;</span>:bookname;</span><br><span class="line">		String url=<span class="string">&quot;jdbc:mysql://localhost:3306/book?user=root&amp;password=123456&amp;serverTimezone=Asia/Shanghai&quot;</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Connection conn=DriverManager.getConnection(url);</span><br><span class="line">			Statement st=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">			String sql=<span class="string">&quot;select * from booklist where bookName like &#x27;%&quot;</span>+bookname+<span class="string">&quot;%&#x27;  &quot;</span> ;</span><br><span class="line">			log(sql);</span><br><span class="line">			ResultSet rs= st.executeQuery(sql);</span><br><span class="line">			List&lt;Book&gt; books=<span class="keyword">new</span> ArrayList&lt;Book&gt;();</span><br><span class="line">			<span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">				Book book=<span class="keyword">new</span> Book();</span><br><span class="line">				book.bookId=rs.getInt(<span class="string">&quot;bookid&quot;</span>);</span><br><span class="line">				book.bookName=rs.getString(<span class="string">&quot;bookName&quot;</span>);</span><br><span class="line">				book.author=rs.getString(<span class="string">&quot;author&quot;</span>);</span><br><span class="line">				book.type=rs.getString(<span class="string">&quot;type&quot;</span>);</span><br><span class="line">				book.price=rs.getFloat(<span class="string">&quot;price&quot;</span>);</span><br><span class="line">				books.add(book);</span><br><span class="line">			&#125;</span><br><span class="line">			rs.close();st.close();conn.close();</span><br><span class="line">			request.setAttribute(<span class="string">&quot;books&quot;</span>, books);</span><br><span class="line">			request.getRequestDispatcher(<span class="string">&quot;/search.jsp&quot;</span>).forward(request, response);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="分类查看设计"><a href="#分类查看设计" class="headerlink" title="分类查看设计"></a>分类查看设计</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;box&quot;</span>&gt;</span><br><span class="line">&lt;%</span><br><span class="line">response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br><span class="line">request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">String type=request.getParameter(<span class="string">&quot;s&quot;</span>);</span><br><span class="line">String url=<span class="string">&quot;jdbc:mysql://localhost:3306/book?user=root&amp;password=123456&amp;serverTimezone=Asia/Shanghai&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	Connection conn=DriverManager.getConnection(url);</span><br><span class="line">	Statement st=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">	String sql=<span class="string">&quot;select * from bookList&quot;</span>;</span><br><span class="line">	String sqll=<span class="string">&quot;select * from bookList where type like &#x27;%&quot;</span>+type+<span class="string">&quot;%&#x27;&quot;</span>;</span><br><span class="line">	String sq=<span class="string">&quot;select type from bookList&quot;</span>;</span><br><span class="line">	log(sql);</span><br><span class="line">	ResultSet rs= st.executeQuery(sql);</span><br><span class="line">	</span><br><span class="line">	List&lt;Book&gt; books=<span class="keyword">new</span> ArrayList&lt;Book&gt;();</span><br><span class="line">	List&lt;Book&gt; bookss=<span class="keyword">new</span> ArrayList&lt;Book&gt;();</span><br><span class="line">	List bo=<span class="keyword">new</span> ArrayList();</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">		Book book=<span class="keyword">new</span> Book();</span><br><span class="line">		book.setBookId(rs.getInt(<span class="number">1</span>));</span><br><span class="line">		book.setBookName(rs.getString(<span class="number">2</span>));</span><br><span class="line">		book.setAuthor(rs.getString(<span class="number">3</span>));</span><br><span class="line">		book.setType(rs.getString(<span class="number">4</span>));</span><br><span class="line">		book.setPrice(rs.getFloat(<span class="number">5</span>));</span><br><span class="line">		books.add(book);</span><br><span class="line">	&#125;</span><br><span class="line">	request.setAttribute(<span class="string">&quot;books&quot;</span>, books);</span><br><span class="line">	ResultSet rs1= st.executeQuery(sqll);</span><br><span class="line">	<span class="keyword">while</span>(rs1.next())&#123;</span><br><span class="line">		Book book1=<span class="keyword">new</span> Book();</span><br><span class="line">		book1.setBookId(rs1.getInt(<span class="number">1</span>));</span><br><span class="line">		book1.setBookName(rs1.getString(<span class="number">2</span>));</span><br><span class="line">		book1.setAuthor(rs1.getString(<span class="number">3</span>));</span><br><span class="line">		book1.setType(rs1.getString(<span class="number">4</span>));</span><br><span class="line">		book1.setPrice(rs1.getFloat(<span class="number">5</span>));</span><br><span class="line">		bookss.add(book1);</span><br><span class="line">	&#125;</span><br><span class="line">	ResultSet rs2= st.executeQuery(sq);</span><br><span class="line">	<span class="keyword">while</span>(rs2.next())&#123;</span><br><span class="line">		bo.add(rs2.getString(<span class="number">1</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	request.setAttribute(<span class="string">&quot;bo&quot;</span>, bo);</span><br><span class="line">	rs.close();st.close();conn.close();rs1.close();</span><br><span class="line">	</span><br><span class="line">	request.setAttribute(<span class="string">&quot;bookss&quot;</span>, bookss);</span><br><span class="line">&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	List&lt;Book&gt; books = (List&lt;Book&gt;) request.getAttribute(<span class="string">&quot;books&quot;</span>);</span><br><span class="line">	List&lt;Book&gt; bookss = (List&lt;Book&gt;) request.getAttribute(<span class="string">&quot;bookss&quot;</span>);</span><br><span class="line">	List&lt;String&gt; bo = (List&lt;String&gt;) request.getAttribute(<span class="string">&quot;bo&quot;</span>);</span><br><span class="line">	Set set = <span class="keyword">new</span> HashSet();</span><br><span class="line">	set.addAll(bo);</span><br><span class="line">	bo.clear();</span><br><span class="line">	bo.addAll(set);</span><br><span class="line">	<span class="keyword">if</span>(bookss==<span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;choice&quot;</span>&gt;</span><br><span class="line">&lt;form action=<span class="string">&quot;browse.jsp&quot;</span>&gt;</span><br><span class="line">&lt;span&gt;请选择图书类型：&lt;/span&gt;</span><br><span class="line">&lt;select name=<span class="string">&quot;s&quot;</span>&gt;</span><br><span class="line">	&lt;option value=&quot;未选择&quot; select=&quot;selected&quot;&gt;请选择&lt;/option&gt;</span><br><span class="line">	&lt;%<span class="keyword">for</span> (String string : bo) &#123;%&gt;</span><br><span class="line">	&lt;option value=&quot;&lt;%=string %&gt;&quot;&gt;&lt;%=string %&gt;&lt;/option&gt;</span><br><span class="line">	&lt;%&#125; %&gt;</span><br><span class="line">&lt;/select&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;确定&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;anniu&quot;</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;%<span class="keyword">if</span>(request.getParameter(<span class="string">&quot;s&quot;</span>)==<span class="keyword">null</span>||request.getParameter(<span class="string">&quot;s&quot;</span>).equals(<span class="string">&quot;未选择&quot;</span>)) &#123;%&gt;</span><br><span class="line">&lt;table border=<span class="string">&quot;1&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;pure-table pure-table-horizontal&quot;</span>&gt;</span><br><span class="line">	&lt;thead&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">		&lt;th&gt;&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;图书id&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;书名&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;作者&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;类型&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;价格&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;&lt;/th&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;/thead&gt;</span><br><span class="line">	&lt;tbody&gt;</span><br><span class="line">	&lt;%<span class="keyword">for</span> (Book book : books) &#123;%&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">		&lt;td&gt;&lt;img src=&quot;image/&lt;%=book.getBookId() %&gt;.jpg&quot;&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book.getBookId() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book.getBookName() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book.getAuthor() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book.getType() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book.getPrice() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;%<span class="keyword">if</span>(session.getAttribute(<span class="string">&quot;username&quot;</span>)!=<span class="keyword">null</span>)&#123; %&gt;</span><br><span class="line">		&lt;td&gt;&lt;input class=&quot;anniu&quot; onclick=&quot;window.location=&#x27;/bookshop/GetById?bookId=&lt;%=book.getBookId() %&gt;&#x27;&quot; type=&quot;button&quot; value=&quot;加入购物车&quot;&gt;&lt;/input&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;input class=&quot;anniu&quot; onclick=&quot;window.location=&#x27;/bookshop/bookdetailServlet?bookId=&lt;%=book.getBookId() %&gt;&#x27;&quot; type=&quot;button&quot; value=&quot;商品详情&quot;&gt;&lt;/input&gt;&lt;/td&gt;</span><br><span class="line">		&lt;%&#125; %&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;%&#125; %&gt;</span><br><span class="line">	&lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;%&#125;<span class="keyword">else</span> &#123;%&gt;</span><br><span class="line">&lt;table border=<span class="string">&quot;1&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;pure-table pure-table-horizontal&quot;</span>&gt;</span><br><span class="line">&lt;thead&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">		&lt;th&gt;&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;图书id&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;书名&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;作者&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;类型&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;价格&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;&lt;/th&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;/thead&gt;</span><br><span class="line">	&lt;tbody&gt;</span><br><span class="line">	&lt;%<span class="keyword">for</span> (Book book1 : bookss) &#123;%&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">		&lt;td&gt;&lt;img src=&quot;image/&lt;%=book1.getBookId() %&gt;.jpg&quot;&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book1.getBookId() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book1.getBookName() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book1.getAuthor() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book1.getType() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;%=book1.getPrice() %&gt;&lt;/td&gt;</span><br><span class="line">		&lt;%<span class="keyword">if</span>(session.getAttribute(<span class="string">&quot;username&quot;</span>)!=<span class="keyword">null</span>)&#123; %&gt;</span><br><span class="line">		&lt;td&gt;&lt;input class=&quot;anniu&quot; onclick=&quot;window.location=&#x27;/bookshop/GetById?bookId=&lt;%=book1.getBookId() %&gt;&#x27;&quot; type=&quot;button&quot; value=&quot;加入购物车&quot;&gt;&lt;/input&gt;&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;&lt;input class=&quot;anniu&quot; onclick=&quot;window.location=&#x27;/bookshop/bookdetailServlet?bookId=&lt;%=book1.getBookId() %&gt;&#x27;&quot; type=&quot;button&quot; value=&quot;商品详情&quot;&gt;&lt;/input&gt;&lt;/td&gt;</span><br><span class="line">		&lt;%&#125; %&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	&lt;%&#125; %&gt;</span><br><span class="line">	&lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;%&#125; %&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="加入购物车设计"><a href="#加入购物车设计" class="headerlink" title="加入购物车设计"></a>加入购物车设计</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="comment">//response.getWriter().append(&quot;Served at: &quot;).append(request.getContextPath());</span></span><br><span class="line">		response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br><span class="line">		request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//response.getWriter()</span></span><br><span class="line">		HttpSession session = request.getSession(<span class="keyword">true</span>);</span><br><span class="line">		String bookid=request.getParameter(<span class="string">&quot;bookId&quot;</span>);</span><br><span class="line">		String username=(String) session.getAttribute(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">		String url=<span class="string">&quot;jdbc:mysql://localhost:3306/book?user=root&amp;password=123456&amp;serverTimezone=Asia/Shanghai&quot;</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Connection conn=DriverManager.getConnection(url);</span><br><span class="line">			Statement st=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">			String sql=<span class="string">&quot;select * from booklist where bookId=&quot;</span>+bookid ;</span><br><span class="line">			</span><br><span class="line">			log(sql);</span><br><span class="line">			ResultSet rs= st.executeQuery(sql);</span><br><span class="line">			rs.next();</span><br><span class="line">				Cart cart=<span class="keyword">new</span> Cart();</span><br><span class="line">				cart.bookId=rs.getInt(<span class="string">&quot;bookId&quot;</span>);</span><br><span class="line">				cart.bookName=rs.getString(<span class="string">&quot;bookName&quot;</span>);</span><br><span class="line">				cart.author=rs.getString(<span class="string">&quot;author&quot;</span>);</span><br><span class="line">				cart.type=rs.getString(<span class="string">&quot;type&quot;</span>);</span><br><span class="line">				cart.price=rs.getFloat(<span class="string">&quot;price&quot;</span>);</span><br><span class="line">				cart.username=username;</span><br><span class="line">			</span><br><span class="line">					</span><br><span class="line">			<span class="comment">//rs.close();st.close();conn.close();</span></span><br><span class="line">			</span><br><span class="line">			request.setAttribute(<span class="string">&quot;cart&quot;</span>, cart);</span><br><span class="line">			<span class="comment">//request.getRequestDispatcher(&quot;/cart.jsp&quot;).forward(request, response);</span></span><br><span class="line">			Cart cart1=(Cart)request.getAttribute(<span class="string">&quot;cart&quot;</span>);</span><br><span class="line">			<span class="keyword">if</span>(cart1==<span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">int</span> bookid1=cart1.getBookId();</span><br><span class="line">			String bookName=cart1.getBookName();</span><br><span class="line">			String author=cart1.getAuthor();</span><br><span class="line">			<span class="keyword">float</span> price=cart1.getPrice();</span><br><span class="line">			String type=cart1.getType();</span><br><span class="line">			String username1=cart1.getUsername();</span><br><span class="line">			Connection con=<span class="keyword">null</span>;</span><br><span class="line">	    	JDBCUtil util = <span class="keyword">new</span> JDBCUtil();</span><br><span class="line">			PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">			String sqll = <span class="string">&quot;INSERT INTO cartlist(bookid,bookName,author,price,type,username) VALUES(?,?,?,?,?,?)&quot;</span>;</span><br><span class="line">			String sqlll= <span class="string">&quot;select * from cartlist where bookid =&#x27;&quot;</span>+bookid+<span class="string">&quot;&#x27; and username=&#x27;&quot;</span>+username+<span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">			<span class="keyword">boolean</span> res = <span class="keyword">false</span>;</span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				con = JDBCUtil.getConnection();</span><br><span class="line">				Statement st1=con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">				log(sqlll);</span><br><span class="line">				ResultSet rs1= st1.executeQuery(sqlll);</span><br><span class="line">				<span class="keyword">if</span>(rs1.next())&#123;</span><br><span class="line">					Cart cartt=<span class="keyword">new</span> Cart();</span><br><span class="line">					cartt.bookId=rs1.getInt(<span class="string">&quot;bookid&quot;</span>);</span><br><span class="line">					cartt.bookName=rs1.getString(<span class="string">&quot;bookName&quot;</span>);</span><br><span class="line">					cartt.price=rs1.getFloat(<span class="string">&quot;price&quot;</span>);</span><br><span class="line">					cartt.num=rs1.getInt(<span class="string">&quot;num&quot;</span>);</span><br><span class="line">					cartt.type=rs1.getString(<span class="string">&quot;type&quot;</span>);</span><br><span class="line">					cartt.author=rs1.getString(<span class="string">&quot;author&quot;</span>);</span><br><span class="line">					cartt.username=rs1.getString(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">					request.setAttribute(<span class="string">&quot;cartt&quot;</span>, cartt);</span><br><span class="line">					Cart cart2=(Cart)request.getAttribute(<span class="string">&quot;cartt&quot;</span>);</span><br><span class="line">					<span class="keyword">int</span> num=cart2.num+<span class="number">1</span>;</span><br><span class="line">					<span class="keyword">int</span> bookid11=cart2.bookId;</span><br><span class="line">					Statement st2=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">					String sq3=<span class="string">&quot;update cartlist set &quot;</span>;</span><br><span class="line">					sq3+=<span class="string">&quot; num=&#x27;&quot;</span>+num+<span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">					sq3+=<span class="string">&quot; where bookid=&quot;</span>+bookid11;</span><br><span class="line">					log(sqlll);</span><br><span class="line">				    <span class="keyword">int</span> val=st2.executeUpdate(sq3); 							</span><br><span class="line">					st2.close();con.close();</span><br><span class="line">				&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">					pstmt = con.prepareStatement (sqll);</span><br><span class="line">		            pstmt.setInt (<span class="number">1</span>, bookid1);</span><br><span class="line">		            pstmt.setString (<span class="number">2</span>, bookName);</span><br><span class="line">		            pstmt.setString(<span class="number">3</span>, author);</span><br><span class="line">		            pstmt.setFloat (<span class="number">4</span>, price);</span><br><span class="line">		            pstmt.setString(<span class="number">5</span>, type);</span><br><span class="line">		            pstmt.setString(<span class="number">6</span>, username);</span><br><span class="line">		            res = (pstmt.executeUpdate () == <span class="number">1</span>);</span><br><span class="line">		            pstmt.close();con.close();&#125;</span><br><span class="line">			&#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">				<span class="keyword">if</span> (!e.getMessage ().contains (<span class="string">&quot;PRIMARY&quot;</span>)) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">	            <span class="keyword">try</span> &#123;</span><br><span class="line">	                <span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) pstmt.close ();</span><br><span class="line">	                <span class="keyword">if</span> (con != <span class="keyword">null</span>) con.close ();</span><br><span class="line">	            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">	                e.printStackTrace ();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">			log(sqll);</span><br><span class="line">			request.getRequestDispatcher(<span class="string">&quot;/cart.jsp&quot;</span>).forward(request, response);</span><br><span class="line">			rs.close();st.close();conn.close();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="商城后端设计"><a href="#商城后端设计" class="headerlink" title="商城后端设计"></a>商城后端设计</h4><h5 id="用户管理设计"><a href="#用户管理设计" class="headerlink" title="用户管理设计"></a>用户管理设计</h5><h6 id="普通用户管理"><a href="#普通用户管理" class="headerlink" title="普通用户管理"></a>普通用户管理</h6><p>普通用户管理页面可以对用户进行禁用管理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">				<span class="comment">//response.getWriter().append(&quot;Served at: &quot;).append(request.getContextPath());</span></span><br><span class="line">				String username=request.getParameter(<span class="string">&quot;userName&quot;</span>);</span><br><span class="line">				String url=<span class="string">&quot;jdbc:mysql://localhost:3306/book?user=root&amp;password=123456&amp;serverTimezone=Asia/Shanghai&quot;</span>;	</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					Connection conn=DriverManager.getConnection(url);</span><br><span class="line">					Statement st=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">					String sqll=<span class="string">&quot;select * from user where username=&#x27;&quot;</span>+username+<span class="string">&quot;&#x27;&quot;</span> ;			</span><br><span class="line">					log(sqll);</span><br><span class="line">					ResultSet rs= st.executeQuery(sqll);</span><br><span class="line">					rs.next();</span><br><span class="line">						User user=<span class="keyword">new</span> User();</span><br><span class="line">						user.username=rs.getString(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">						user.password=rs.getString(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">						user.status=rs.getInt(<span class="string">&quot;status&quot;</span>);</span><br><span class="line">					request.setAttribute(<span class="string">&quot;user&quot;</span>, user);</span><br><span class="line">					<span class="keyword">if</span>(user.getStatus()==<span class="number">1</span>)&#123;</span><br><span class="line">						String sql=<span class="string">&quot;update user set &quot;</span>;</span><br><span class="line">						sql+=<span class="string">&quot;status=&quot;</span>+<span class="number">0</span>+<span class="string">&quot; &quot;</span>;</span><br><span class="line">						sql+=<span class="string">&quot;where username=&#x27;&quot;</span>+username+<span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">						log(sql);</span><br><span class="line">					    <span class="keyword">int</span> val=st.executeUpdate(sql); </span><br><span class="line">						st.close();conn.close();</span><br><span class="line">						response.sendRedirect(<span class="string">&quot;/bookshop/banuser.jsp&quot;</span>);</span><br><span class="line">					&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">						String sql=<span class="string">&quot;update user set &quot;</span>;</span><br><span class="line">						sql+=<span class="string">&quot;status=&quot;</span>+<span class="number">1</span>+<span class="string">&quot; &quot;</span>;</span><br><span class="line">						sql+=<span class="string">&quot;where username=&#x27;&quot;</span>+username+<span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">						log(sql);</span><br><span class="line">					    <span class="keyword">int</span> val=st.executeUpdate(sql); </span><br><span class="line">						st.close();conn.close();</span><br><span class="line">						response.sendRedirect(<span class="string">&quot;/bookshop/banuser.jsp&quot;</span>);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="管理员用户管理"><a href="#管理员用户管理" class="headerlink" title="管理员用户管理"></a>管理员用户管理</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="comment">//response.getWriter().append(&quot;Served at: &quot;).append(request.getContextPath());</span></span><br><span class="line">		response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br><span class="line">		request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">		<span class="comment">//response.getWriter()</span></span><br><span class="line">		String username=request.getParameter(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">		String password=request.getParameter(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">		String url=<span class="string">&quot;jdbc:mysql://localhost:3306/book?user=root&amp;password=123456&amp;serverTimezone=Asia/Shanghai&quot;</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Connection conn=DriverManager.getConnection(url);</span><br><span class="line">			Statement st=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">			String sql=<span class="string">&quot;update adminlist set &quot;</span>;</span><br><span class="line">			sql+=<span class="string">&quot; password=&#x27;&quot;</span>+password+<span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">			sql+=<span class="string">&quot; where username=&quot;</span>+username;</span><br><span class="line">			log(sql);</span><br><span class="line">		    <span class="keyword">int</span> val=st.executeUpdate(sql); </span><br><span class="line">			st.close();conn.close();</span><br><span class="line">			response.sendRedirect(<span class="string">&quot;/bookshop/adminmanage.jsp&quot;</span>);</span><br><span class="line">			<span class="comment">//request.getRequestDispatcher(&quot;/searchmanage.jsp&quot;).forward(request, response);</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="图书管理设计"><a href="#图书管理设计" class="headerlink" title="图书管理设计"></a>图书管理设计</h5><h6 id="图片上传"><a href="#图片上传" class="headerlink" title="图片上传"></a>图片上传</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    	  <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">    	    <span class="comment">//response.getWriter().append(&quot;Served at: &quot;).append(request.getContextPath());</span></span><br><span class="line">    	    request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">    	    response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br><span class="line">    	    <span class="comment">//上传图片</span></span><br><span class="line">    	    String tmp = request.getServletContext().getRealPath(<span class="string">&quot;/image&quot;</span>);</span><br><span class="line">    	    log(tmp);</span><br><span class="line">    	    Part part=request.getPart(<span class="string">&quot;myfile&quot;</span>);</span><br><span class="line">    	    String s=part.getHeader(<span class="string">&quot;Content-Disposition&quot;</span>);</span><br><span class="line">    	    <span class="keyword">int</span> pos=s.lastIndexOf(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">    	    String ext=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    	    <span class="keyword">if</span>(pos&gt;<span class="number">0</span>) &#123;</span><br><span class="line">    	      ext=s.substring(pos, s.length()-<span class="number">1</span>);</span><br><span class="line">    	    &#125;</span><br><span class="line">    	    <span class="keyword">if</span>(ext.equals(<span class="string">&quot;&quot;</span>))&#123;</span><br><span class="line">    	     response.sendRedirect(<span class="string">&quot;../bookshop/bookmanage.jsp&quot;</span>);</span><br><span class="line">    	     <span class="keyword">return</span> ;</span><br><span class="line">    	    &#125;</span><br><span class="line">    	    String fileName= part.getSubmittedFileName();</span><br><span class="line">    	    log(fileName);</span><br><span class="line">    	    part.write(tmp+<span class="string">&quot;\\&quot;</span>+fileName);</span><br><span class="line">    	    response.sendRedirect(<span class="string">&quot;../bookshop/bookmanage.jsp&quot;</span>);</span><br><span class="line">    	 &#125;</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/01/18/Javascript_%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%8E%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Javascript_前端知识点与面试题
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/01/15/note1/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Hexo部署出现错误err-Error-Spawn-failed解决方式</div>
+      </a>
+    
+  </nav>
+
+   
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2019-2022
+        <i class="ri-heart-fill heart_icon"></i> 二百八
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="https://beian.miit.gov.cn/" target="_black" rel="nofollow">粤ICP备88888888</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+      <li>
+          <img src="/images/beian.png"></img>
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=01234567890123" target="_black" rel="nofollow">粤公网安备01234567890123号</a>
+      </li>
+        
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="just chill"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯奶茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=592701&auto=0&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>
