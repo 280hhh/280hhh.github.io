@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">4.9k</span>
+            <span class="post-count">5.7k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">17 min</span>
+            <span class="post-count">20 min</span>
         </span>
     </span>
 </div>
@@ -134,6 +134,21 @@
 <li>DELET：删除文件，与PUT方法相反，删除对应URL位置的文件。</li>
 <li>OPTIONS：查询相应URL支持的HTTP方法。</li>
 </ul>
+<h3 id="DNS协议是什么"><a href="#DNS协议是什么" class="headerlink" title="DNS协议是什么"></a>DNS协议是什么</h3><hr>
+<p><strong>概念：</strong>DNS 是域名系统 (Domain Name System) 的缩写，提供的是一种主机名到 IP 地址的转换服务，就是我们常说的域名系统。它是一个由分层的 DNS 服务器组成的分布式数据库，是定义了主机如何查询这个分布式数据库的方式的应用层协议。能够使人更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。</p>
+<p><strong>作用：</strong>将域名解析为IP地址，客户端向DNS服务器（DNS服务器有自己的IP地址）发送域名查询请求，DNS服务器告知客户机Web服务器的 IP 地址。</p>
+<h3 id="DNS完整的查询过程"><a href="#DNS完整的查询过程" class="headerlink" title="DNS完整的查询过程"></a>DNS完整的查询过程</h3><hr>
+<p>DNS服务器解析域名的过程：</p>
+<ul>
+<li>首先会在<strong>浏览器的缓存</strong>中查找对应的IP地址，如果查找到直接返回，若找不到继续下一步</li>
+<li>将请求发送给<strong>本地DNS服务器</strong>，在本地域名服务器缓存中查询，如果查找到，就直接将查找结果返回，若找不到继续下一步</li>
+<li>本地DNS服务器向<strong>根域名服务器</strong>发送请求，根域名服务器会返回一个所查询域的顶级域名服务器地址</li>
+<li>本地DNS服务器向<strong>顶级域名服务器</strong>发送请求，接受请求的服务器查询自己的缓存，如果有记录，就返回查询结果，如果没有就返回相关的下一级的权威域名服务器的地址</li>
+<li>本地DNS服务器向<strong>权威域名服务器</strong>发送请求，域名服务器返回对应的结果</li>
+<li>本地DNS服务器将返回结果保存在缓存中，便于下次使用</li>
+<li>本地DNS服务器将返回结果返回给浏览器</li>
+</ul>
+<p>比如要查询 <a href="https://link.juejin.cn/?target=http://www.baidu.com/">www.baidu.com</a> 的 IP 地址，首先会在浏览器的缓存中查找是否有该域名的缓存，如果不存在就将请求发送到本地的 DNS 服务器中，本地DNS服务器会判断是否存在该域名的缓存，如果不存在，则向根域名服务器发送一个请求，根域名服务器返回负责 .com 的顶级域名服务器的 IP 地址的列表。然后本地 DNS 服务器再向其中一个负责 .com 的顶级域名服务器发送一个请求，负责 .com 的顶级域名服务器返回负责 .baidu 的权威域名服务器的 IP 地址列表。然后本地 DNS 服务器再向其中一个权威域名服务器发送一个请求，最后权威域名服务器返回一个对应的主机名的 IP 地址列表。</p>
 <h3 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h3><hr>
 <p><strong>1.第一次握手：</strong>建立连接时，客户端发送syn包（syn=j）到服务器，并进入SYN_SENT状态，等待服务器确认；SYN：同步序列编号（Synchronize Sequence Numbers）。</p>
 <p><strong>2.第二次握手：</strong>服务器收到syn包并确认客户的SYN（ack=j+1），同时也发送一个自己的SYN包（syn=k），即SYN+ACK包，此时服务器进入SYN_RECV状态。</p>
@@ -149,6 +164,24 @@
 <p>2.TCP仅支持单播传输，UDP提供了单播，多播，广播的功能。</p>
 <p>3.TCP的三次握手保证了连接的可靠性；UDP是无连接的、不可靠的一种数据传输协议，首先不可靠性体现在无连接上，通信都不需要建立连接，对接收到的数据也不发送确认信号，发送端不知道数据是否会正确接收。</p>
 <p>4.UDP的头部开销比TCP的更小，数据传输速率更高，实时性更好。</p>
+<h3 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h3><hr>
+<ul>
+<li>应用层</li>
+<li>表示层</li>
+<li>会话层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li>物理层</li>
+</ul>
+<h3 id="TCP-IP五层协议"><a href="#TCP-IP五层协议" class="headerlink" title="TCP/IP五层协议"></a>TCP/IP五层协议</h3><hr>
+<ul>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li>物理层</li>
+</ul>
 <h3 id="HTTP请求跨域问题"><a href="#HTTP请求跨域问题" class="headerlink" title="HTTP请求跨域问题"></a>HTTP请求跨域问题</h3><hr>
 <p>1.跨域的原理</p>
 <p><strong>跨域</strong>，是指浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的。</p>
