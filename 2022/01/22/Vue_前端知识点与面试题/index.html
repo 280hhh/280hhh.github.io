@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.1k</span>
+            <span class="post-count">4.2k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">11 min</span>
+            <span class="post-count">15 min</span>
         </span>
     </span>
 </div>
@@ -154,6 +154,53 @@
 <p><strong>使用场景：</strong></p>
 <p>computed：当一个属性受多个属性影响的时候使用，例：购物车商品结算功能</p>
 <p>watch：当一条数据影响多条数据的时候使用，例：搜索数据</p>
+<h3 id="Computed和Watch的区别"><a href="#Computed和Watch的区别" class="headerlink" title="Computed和Watch的区别"></a>Computed和Watch的区别</h3><hr>
+<p><strong>对于Computed：</strong></p>
+<ul>
+<li>它支持缓存，只有依赖的数据发生了变化，才会重新计算</li>
+<li>不支持异步，当Computed中有异步操作时，无法监听数据的变化</li>
+<li>computed的值会默认走缓存，计算属性是基于它们的响应式依赖进行缓存的，也就是基于data声明过，或者父组件传递过来的props中的数据进行计算的。</li>
+<li>如果一个属性是由其他属性计算而来的，这个属性依赖其他的属性，一般会使用computed</li>
+<li>如果computed属性的属性值是函数，那么默认使用get方法，函数的返回值就是属性的属性值；在computed中，属性有一个get方法和一个set方法，当数据发生变化时，会调用set方法。</li>
+</ul>
+<p><strong>对于Watch：</strong></p>
+<ul>
+<li>它不支持缓存，数据变化时，它就会触发相应的操作</li>
+<li>支持异步监听</li>
+<li>监听的函数接收两个参数，第一个参数是最新的值，第二个是变化之前的值</li>
+<li>当一个属性发生变化时，就需要执行相应的操作</li>
+<li>监听数据必须是data中声明的或者父组件传递过来的props中的数据，当发生变化时，会触发其他操作，函数有两个的参数：<ul>
+<li>immediate：组件加载立即触发回调函数</li>
+<li>deep：深度监听，发现数据内部的变化，在复杂数据类型中使用，例如数组中的对象发生变化。需要注意的是，deep无法监听到数组和对象内部的变化。</li>
+</ul>
+</li>
+</ul>
+<p>当想要执行异步或者昂贵的操作以响应不断的变化时，就需要使用watch。</p>
+<p><strong>总结：</strong></p>
+<ul>
+<li>computed 计算属性 : 依赖其它属性值，并且 computed 的值有缓存，只有它依赖的属性值发生改变，下一次获取 computed 的值时才会重新计算 computed 的值。</li>
+<li>watch 侦听器 : 更多的是<strong>观察</strong>的作用，<strong>无缓存性</strong>，类似于某些数据的监听回调，每当监听的数据变化时都会执行回调进行后续操作。</li>
+</ul>
+<p><strong>运用场景：</strong></p>
+<ul>
+<li>当需要进行数值计算,并且依赖于其它数据时，应该使用 computed，因为可以利用 computed 的缓存特性，避免每次获取值时都要重新计算。</li>
+<li>当需要在数据变化时执行异步或开销较大的操作时，应该使用 watch，使用 watch 选项允许执行异步操作 ( 访问一个 API )，限制执行该操作的频率，并在得到最终结果前，设置中间状态。这些都是计算属性无法做到的。</li>
+</ul>
+<h3 id="Computed和Methods的区别"><a href="#Computed和Methods的区别" class="headerlink" title="Computed和Methods的区别"></a>Computed和Methods的区别</h3><hr>
+<p>可以将同一函数定义为一个 method 或者一个计算属性。对于最终的结果，两种方式是相同的</p>
+<p><strong>不同点：</strong></p>
+<ul>
+<li>computed: 计算属性是基于它们的依赖进行缓存的，只有在它的相关依赖发生改变时才会重新求值；</li>
+<li>method 调用总会执行该函数。</li>
+</ul>
+<h3 id="slot是什么？有什么作用？原理是什么？"><a href="#slot是什么？有什么作用？原理是什么？" class="headerlink" title="slot是什么？有什么作用？原理是什么？"></a>slot是什么？有什么作用？原理是什么？</h3><hr>
+<p>slot又名插槽，是Vue的内容分发机制，组件内部的模板引擎使用slot元素作为承载分发内容的出口。插槽slot是子组件的一个模板标签元素，而这一个标签元素是否显示，以及怎么显示是由父组件决定的。slot又分三类，默认插槽，具名插槽和作用域插槽。</p>
+<ul>
+<li>默认插槽：又名匿名查抄，当slot没有指定name属性值的时候一个默认显示插槽，一个组件内只有有一个匿名插槽。</li>
+<li>具名插槽：带有具体名字的插槽，也就是带有name属性的slot，一个组件可以出现多个具名插槽。</li>
+<li>作用域插槽：默认插槽、具名插槽的一个变体，可以是匿名插槽，也可以是具名插槽，该插槽的不同点是在子组件渲染作用域插槽时，可以将子组件内部的数据传递给父组件，让父组件根据子组件的传递过来的数据决定如何渲染该插槽。</li>
+</ul>
+<p>实现原理：当子组件vm实例化时，获取到父组件传入的slot标签的内容，存放在<code>vm.$slot</code>中，默认插槽为<code>vm.$slot.default</code>，具名插槽为<code>vm.$slot.xxx</code>，xxx 为插槽名，当组件执行渲染函数时候，遇到slot标签，使用<code>$slot</code>中的内容进行替换，此时可以为插槽传递数据，若存在数据，则可称该插槽为作用域插槽。</p>
 <h3 id="组件中的data为什么是一个函数"><a href="#组件中的data为什么是一个函数" class="headerlink" title="组件中的data为什么是一个函数"></a>组件中的data为什么是一个函数</h3><hr>
 <p>1.一个组件被复用多次的话，也就会创建多个实例。本质上，这些实例用的都是同一个构造函数。</p>
 <p>2.如果data是对象的话，对象属于引用类型，会影响到所有的实例。所以为了保证组件不同的实例之间data不冲突，data必须是一个函数。</p>
